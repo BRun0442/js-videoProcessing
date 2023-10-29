@@ -7,6 +7,10 @@ const worker = new Worker('./src/worker/worker.js', {
     type: 'module'
 })
 
+worker.onerror = (error) => {
+    console.error('Error worker: ', error)
+}
+
 worker.onmessage = ({data}) => {
     if(data.status !== 'done') return;
     
@@ -14,13 +18,16 @@ worker.onmessage = ({data}) => {
     view.updateElapsedTime(`Process took ${took.replace('ago', '')}`)
 }
 
-worker.postMessage('enviado do paii!')
-
 let took = ''
 view.configureOnFileChange(file => {
+    const canvas = view.getCanvas()
+
     worker.postMessage({
-        file
-    })
+        file,
+        canvas
+    }, [
+        canvas
+    ])
 
     clock.start((time) => {
         took = time;
@@ -30,7 +37,7 @@ view.configureOnFileChange(file => {
 
 async function fakeFetch()
 {
-    const filePath = '/videos/pegaramMeuTelefone.mp4'
+    const filePath = '/videos/frag_bunny.mp4'
     const response = await fetch(filePath)
 
     // traz o tamanho do arquivo
