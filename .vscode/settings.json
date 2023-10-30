@@ -1,0 +1,8 @@
+{
+    "debug.console.lineHeight": 0,
+    "search.defaultViewMode": "list",
+    "explorer.decorations.badges": false,
+    "explorer.decorations.colors": true,
+    "explorer.fileNesting.expand": true,
+    "explorer.openEditors.visible": 9
+}
